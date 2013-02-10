@@ -14,31 +14,15 @@
 #define hash_function_char  hashpjw
 
 typedef int (*hash_fn_ptr)(unsigned int bkt_size, void*);
-
-typedef struct list_node
-{
-    struct list_node *next;
-    void *key;
-    void *data;
-}list_node_t;
-
-typedef struct hash_bkt_struct
-{
-  unsigned int length;
-  list_node_t *head;
-}hash_bkt_t;
+typedef int (*key_cmp_fn_ptr)(void*, void*);
+typedef void* hash_handle_t;
 
 
-typedef struct hash_root
-{
-  unsigned int bkt_size;
-  hash_fn_ptr  hash_fn;
-  hash_bkt_t   **hash_bkt;
-  unsigned int total_elements;
-}hash_root_t;
-
-hash_root_t* hash_init(unsigned int bkt_size, int (*hash_fn)(unsigned int bkt_size,void *));
+hash_handle_t hash_init(unsigned int bkt_size, 
+                       hash_fn_ptr hash_fn,
+                       key_cmp_fn_ptr key_cmp_fn);
 int hash_function_int(unsigned int bkt_size, void *key_p);
-int hash_insert(hash_root_t* root, void *key, void* data);
-
-
+int hash_insert(hash_handle_t root, void *key, void* data);
+void* hash_lookup(hash_handle_t root, void *key);
+void* hash_delete(hash_handle_t handle, void *key);
+void hash_distribution(hash_handle_t handle, int **result_pp, int *bkt_size);
