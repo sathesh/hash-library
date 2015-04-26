@@ -138,7 +138,7 @@ int hash_insert(hash_handle_t handle, void *key, void* data)
 
   if (!root->hash_bkt[hash_index])
   {
-     root->hash_bkt[hash_index] = HASH_MALLOC(sizeof(hash_bkt_t*));
+     root->hash_bkt[hash_index] = HASH_MALLOC(sizeof(hash_bkt_t));
      if (!root->hash_bkt[hash_index])
        return FALSE;
      root->hash_bkt[hash_index]->length = 0;
